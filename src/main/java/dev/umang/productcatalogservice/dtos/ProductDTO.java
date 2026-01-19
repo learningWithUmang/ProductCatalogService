@@ -1,5 +1,7 @@
 package dev.umang.productcatalogservice.dtos;
 
+import dev.umang.productcatalogservice.models.Category;
+import dev.umang.productcatalogservice.models.Product;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -59,4 +61,24 @@ public class ProductDTO {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+
+    public Product convertToProduct() {
+        Product product = new Product();
+        product.setId(this.getId());
+        product.setName(this.getName());
+        product.setDescription(this.getDescription());
+        product.setPrice(this.getPrice());
+        product.setImageUrl(this.getImageUrl());
+        if(product.getCategory() != null) {
+            Category category1 = new Category();
+            category1.setName(this.getCategory().getName());
+            category1.setId(this.getCategory().getId());
+            category1.setDescription(this.getCategory().getDescription());
+            product.setCategory(category1);
+        }
+        return product;
+    }
+
+
 }

@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /*
 multiple objects of controller
@@ -41,6 +44,28 @@ public class ProductController {
     @GetMapping
     @PostMapping
      */
+
+    @PutMapping("/products/{productId}")
+    ProductDTO updateProduct(@PathVariable("productId") Long productId,
+                         @RequestBody ProductDTO productDTO){
+
+        /*
+        productDto to product
+        pass productDTO and get the product back
+         */
+        ProductDTO productReponseDTO = new ProductDTO();
+        /*
+        call the service layer to update the product
+         */
+
+        Product product = productService.replaceProduct(productDTO.convertToProduct(), productId);
+
+        if(product != null){
+            return product.convert();
+        }
+        return null;
+    }
+
 
     @PostMapping("/products")
     ProductDTO createProduct(@RequestBody ProductDTO product){
@@ -93,12 +118,25 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    String getAllProducts(){
-        return "Hello world";
-        //List<ProductReponseDTO> products = new ArrayList<>();
+    List<ProductDTO> getAllProducts(){
+        List<ProductDTO> productDTOS = new ArrayList<>();
         /*
         call the service layer to get all products
          */
-        //return products;
+
+        List<Product> products = productService.getAllProducts();
+
+        if(products != null){
+            for(Product product : products){
+                productDTOS.add(product.convert());
+            }
+        }
+
+        return productDTOS;
     }
 }
+/*
+path variable /id/
+request body { "" : ""
+Query params ?category=electronics
+ */

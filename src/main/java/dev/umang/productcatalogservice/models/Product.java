@@ -1,6 +1,7 @@
 package dev.umang.productcatalogservice.models;
 
 import dev.umang.productcatalogservice.dtos.CategoryDTO;
+import dev.umang.productcatalogservice.dtos.FakestoreProductDto;
 import dev.umang.productcatalogservice.dtos.ProductDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,19 @@ public class Product extends BaseModel {
     private Double price;
     private String imageUrl;
     private Category category;
+
+    public FakestoreProductDto convertToFakeStoreProduct(){
+        FakestoreProductDto fakeStoreProductDto = new FakestoreProductDto();
+        fakeStoreProductDto.setId(this.getId());
+        fakeStoreProductDto.setTitle(this.getName());
+        fakeStoreProductDto.setPrice(this.getPrice());
+        fakeStoreProductDto.setDescription(this.getDescription());
+        fakeStoreProductDto.setImage(this.getImageUrl());
+        if(this.getCategory() != null) {
+            fakeStoreProductDto.setCategory(this.getCategory().getName());
+        }
+        return fakeStoreProductDto;
+    }
 
     public ProductDTO convert(){
         ProductDTO productDto = new ProductDTO();
