@@ -1,10 +1,14 @@
 package dev.umang.productcatalogservice.models;
 
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
 
+
+@MappedSuperclass
 public abstract class BaseModel {
     /*
     -> id                                     : Long
@@ -13,6 +17,7 @@ public abstract class BaseModel {
     -> state                                : Enum
      */
 
+    @Id
     private Long id;
     private Date createdAt; //store data in epoch format-> HW
     private Date lastUpdatedAt;

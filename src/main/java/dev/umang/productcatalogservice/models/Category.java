@@ -1,10 +1,14 @@
 package dev.umang.productcatalogservice.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
+@Entity
 public class Category extends BaseModel{
     /*
     name                          : String
@@ -14,6 +18,8 @@ public class Category extends BaseModel{
 
     private String name;
     private String description;
+
+    @OneToMany(mappedBy = "category")
     private List<Product> products;
 
     public String getName() {
@@ -40,3 +46,9 @@ public class Category extends BaseModel{
         this.products = products;
     }
 }
+/*
+Product Category
+  1 1
+  M  1
+  M : 1
+ */

@@ -91,7 +91,7 @@ public class ProductController {
          */
 
         if(id < 1){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Invalid Product ID(zero or negative)");
         }
 
 
@@ -134,6 +134,9 @@ public class ProductController {
 
         return productDTOS;
     }
+
+
+
 }
 /*
 path variable /id/

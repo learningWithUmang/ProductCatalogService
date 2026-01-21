@@ -3,10 +3,14 @@ package dev.umang.productcatalogservice.models;
 import dev.umang.productcatalogservice.dtos.CategoryDTO;
 import dev.umang.productcatalogservice.dtos.FakestoreProductDto;
 import dev.umang.productcatalogservice.dtos.ProductDTO;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
 
+@Entity
 public class Product extends BaseModel {
     /*
     name                          : String
@@ -20,6 +24,8 @@ public class Product extends BaseModel {
     private String description;
     private Double price;
     private String imageUrl;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private Category category;
 
     public FakestoreProductDto convertToFakeStoreProduct(){
@@ -93,3 +99,13 @@ public class Product extends BaseModel {
         this.category = category;
     }
 }
+/*
+Product Category
+1         1
+M           1
+M : 1 => gets converted to foriegn key constraints
+
+Cascade
+
+Product with a category which doesn't exist
+ */

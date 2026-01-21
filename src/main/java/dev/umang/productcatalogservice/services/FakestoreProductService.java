@@ -1,5 +1,6 @@
 package dev.umang.productcatalogservice.services;
 
+import dev.umang.productcatalogservice.clients.FakeStoreAPIClient;
 import dev.umang.productcatalogservice.dtos.FakestoreProductDto;
 import dev.umang.productcatalogservice.models.Product;
 import org.jspecify.annotations.Nullable;
@@ -25,16 +26,11 @@ Rest template is a library we are going to use for talking to 3rd party APIs
  */
 @Service
 public class FakestoreProductService implements IProductService {
-    private RestTemplate restTemplate;
 
-    private FakestoreProductService(RestTemplate restTemplate){
-        this.restTemplate = restTemplate;
-    }
+    private FakeStoreAPIClient fakeStoreAPIClient;
 
-    public <T> ResponseEntity<T> putForEntity(String url, @Nullable Object request, Class<T> responseType, Object... uriVariables) throws RestClientException {
-        RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
-        ResponseExtractor<ResponseEntity<T>> responseExtractor = restTemplate.responseEntityExtractor(responseType);
-        return restTemplate.execute(url, HttpMethod.PUT, requestCallback, responseExtractor, uriVariables);
+    public FakestoreProductService(FakeStoreAPIClient fakeStoreAPIClient){
+        this.fakeStoreAPIClient = fakeStoreAPIClient;
     }
 
     @Override
@@ -44,7 +40,7 @@ public class FakestoreProductService implements IProductService {
 //                FakestoreProductDto.class,
 //                id);
 
-        ResponseEntity<FakestoreProductDto> fakestoreProductDtoResponseEntity = restTemplate.getForEntity(
+        ResponseEntity<FakestoreProductDto> fakestoreProductDtoResponseEntity = fakeStoreAPIClient.getForEntity(
                 "https://fakestoreapi.com/products/{id}",
                 FakestoreProductDto.class,
                 id
@@ -52,10 +48,7 @@ public class FakestoreProductService implements IProductService {
 
 
 
-        if(fakestoreProductDtoResponseEntity.hasBody() &&
-                fakestoreProductDtoResponseEntity.getStatusCode().equals(
-                        HttpStatusCode.valueOf(200)
-        )){
+        if(fakeStoreAPIClient.validateResponse(fakestoreProductDtoResponseEntity)){
             return fakestoreProductDtoResponseEntity.getBody().from(fakestoreProductDtoResponseEntity.getBody());
         }
 
@@ -79,7 +72,7 @@ public class FakestoreProductService implements IProductService {
 
         List<Product> products = new ArrayList<>();
 
-        ResponseEntity<FakestoreProductDto[]> response = restTemplate.getForEntity(
+        ResponseEntity<FakestoreProductDto[]> response = fakeStoreAPIClient.getForEntity(
                 "https://fakestoreapi.com/products",
                 FakestoreProductDto[].class);
 
@@ -152,7 +145,8 @@ public class FakestoreProductService implements IProductService {
          */
         FakestoreProductDto fakestoreProductDto = product.convertToFakeStoreProduct();
 
-        ResponseEntity<FakestoreProductDto> response = this.putForEntity(
+
+        ResponseEntity<FakestoreProductDto> response = fakeStoreAPIClient.putForEntity(
                 "https://fakestoreapi.com/products/{id}",
                 fakestoreProductDto,
                 FakestoreProductDto.class,
