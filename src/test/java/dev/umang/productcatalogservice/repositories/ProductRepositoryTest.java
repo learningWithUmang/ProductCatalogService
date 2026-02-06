@@ -30,9 +30,11 @@ class ProductRepositoryTest {
          */
 
         String description = productRepository.findDescriptionWhereIdIs(4L);
+
+        assertEquals("electronics", description);
         //List<Product> products = productRepository.findAllByOrderByPrice();
         ;
-        System.out.println();
+        //System.out.println();
     }
 
 }

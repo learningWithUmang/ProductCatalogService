@@ -68,6 +68,13 @@ public class ProductController {
         return null;
     }
 
+    /*
+    Test in isolation
+    a() {
+        b(); //we need mock of b
+    }
+     */
+
 
     @PostMapping("/products")
     ProductDTO createProduct(@RequestBody ProductDTO product){
@@ -92,14 +99,21 @@ public class ProductController {
      */
     @GetMapping("/products/{id}")
     ResponseEntity<ProductDTO> getProductById(@PathVariable("id") Long id){
+
+        if (id < 0) {
+            throw new IllegalArgumentException("Product Id not found");
+        } else if(id == 0) {
+            throw new IllegalArgumentException("Products exist with positive id");
+        }
+
         //RestTemplate
         /*
         call the service layer to get the product by id
          */
 
-        if(id < 1){
-            throw new IllegalArgumentException("Invalid Product ID(zero or negative)");
-        }
+//        if(id < 1){
+//            throw new IllegalArgumentException("Invalid Product ID(zero or negative)");
+//        }
 
 
 
