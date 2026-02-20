@@ -2,6 +2,8 @@ package dev.umang.productcatalogservice.repositories;
 
 import dev.umang.productcatalogservice.models.Product;
 import io.micrometer.observation.annotation.ObservationKeyValue;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -35,9 +37,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     String findDescriptionWhereIdIs(@Param("id") Long id);
 
 
+    Page<Product> findByName(String name, Pageable pageable);
     /*
     select description
     from products
     where id = {x}
      */
 }
+
+/*
+Pageable is an interface which has methods like getPageNo and
+getPageSize which can be used,
+
+PageRequest is one of Pageable implementations
+ */

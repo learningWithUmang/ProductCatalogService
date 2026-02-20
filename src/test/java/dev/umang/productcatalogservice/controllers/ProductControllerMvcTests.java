@@ -3,7 +3,7 @@ package dev.umang.productcatalogservice.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.umang.productcatalogservice.dtos.ProductDTO;
-import dev.umang.productcatalogservice.models.Product;
+import dev.umang.productcatalogservice.models.Product;category
 import dev.umang.productcatalogservice.services.IProductService;
 import dev.umang.productcatalogservice.services.StorageProductService;
 import org.junit.jupiter.api.Test;

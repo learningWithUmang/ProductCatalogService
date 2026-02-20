@@ -1,5 +1,6 @@
 package dev.umang.productcatalogservice.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.umang.productcatalogservice.dtos.CategoryDTO;
 import dev.umang.productcatalogservice.dtos.FakestoreProductDto;
 import dev.umang.productcatalogservice.dtos.ProductDTO;
@@ -26,7 +27,22 @@ public class Product extends BaseModel {
     private String imageUrl;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Category category;
+
+    /*
+    product :
+    {
+        "category " : {
+                "products" :
+                        {
+                               "category" :
+
+
+     */
+    /*
+    JsonManagedReference and JsonBackReference
+     */
 
     public FakestoreProductDto convertToFakeStoreProduct(){
         FakestoreProductDto fakeStoreProductDto = new FakestoreProductDto();

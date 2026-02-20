@@ -1,5 +1,6 @@
 package dev.umang.productcatalogservice.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
@@ -25,9 +26,15 @@ public class Category extends BaseModel{
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
+    @JsonBackReference
     @BatchSize(size = 15) // you are going to decide batch
     //size based on data analysis
     private List<Product> products;
+
+    /*
+    whenever somebody fetches a product,
+    don't recursively add category products back
+     */
 
     public String getName() {
         return name;
@@ -86,4 +93,11 @@ Product Category
 
 
      Try batch size with join
+
+
+ */
+
+/*
+when you fetch an object from db,
+all list types are fetched lazily by default, so they are not fetched until you call the getter method of that list.
  */
