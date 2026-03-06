@@ -156,6 +156,17 @@ public class ProductController {
         return productDTOS;
     }
 
+    @GetMapping("/products/{productId}/{userId}")
+    public ProductDTO getProductDetailsBasedOnUserRole(@PathVariable Long productId, @PathVariable Long userId) {
+        System.out.println("Call reaching this api");
+        Product product = productService.getProductBasedOnUserScope(productId, userId);
+//        if(product != null) {
+//            return from(product);
+//        }
+        return null;
+    }
+
+
 
 
 }

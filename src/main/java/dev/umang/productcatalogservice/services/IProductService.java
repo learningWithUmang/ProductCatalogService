@@ -10,4 +10,6 @@ public interface IProductService {
     Product createProduct(Product input);
 
     Product replaceProduct(Product input, Long productId);
+
+    Product getProductBasedOnUserScope(Long productId, Long userId);
 }
