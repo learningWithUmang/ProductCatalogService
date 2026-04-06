@@ -4,6 +4,7 @@ import dev.umang.productcatalogservice.dtos.ProductDTO;
 import dev.umang.productcatalogservice.models.Product;
 import dev.umang.productcatalogservice.services.FakestoreProductService;
 import dev.umang.productcatalogservice.services.IProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,10 @@ public class ProductController {
     @PostMapping
      */
 
+    /*
+    /products/24 -> product with id 24
+    /products/. -> productID is null
+     */
     @PutMapping("/products/{productId}")
     ProductDTO updateProduct(@PathVariable("productId") Long productId,
                          @RequestBody ProductDTO productDTO){
@@ -68,15 +73,12 @@ public class ProductController {
 
 
     @PostMapping("/products")
-    ProductDTO createProduct(@RequestBody ProductDTO product){
+    ProductDTO createProduct(@RequestBody ProductDTO productDTO){
+        Product product = productDTO.convertToProduct();
 
-        ProductDTO productReponseDTO = new ProductDTO();
-        /*
-        call the service layer to save the product
-         */
+        Product outPut = productService.createProduct(product);
 
-        //productService.createProduct(product);
-        return productReponseDTO;
+        return outPut.convert();
     }
     /*
     "name": "iphone",

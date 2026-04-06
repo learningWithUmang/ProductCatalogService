@@ -3,6 +3,7 @@ package dev.umang.productcatalogservice.services;
 import dev.umang.productcatalogservice.clients.FakeStoreAPIClient;
 import dev.umang.productcatalogservice.dtos.FakestoreProductDto;
 import dev.umang.productcatalogservice.models.Product;
+import dev.umang.productcatalogservice.repositories.ProductRepository;
 import org.jspecify.annotations.Nullable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Fallback;
@@ -17,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.nonNull;
 
@@ -24,13 +26,16 @@ import static java.util.Objects.nonNull;
 Spring cloud class - more on configurations
 Rest template is a library we are going to use for talking to 3rd party APIs
  */
-@Service
+@Service("fakestore")
 public class FakestoreProductService implements IProductService {
 
     private FakeStoreAPIClient fakeStoreAPIClient;
+    private final ProductRepository productRepository;
 
-    public FakestoreProductService(FakeStoreAPIClient fakeStoreAPIClient){
+    public FakestoreProductService(FakeStoreAPIClient fakeStoreAPIClient,
+                                   ProductRepository productRepository){
         this.fakeStoreAPIClient = fakeStoreAPIClient;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -161,5 +166,10 @@ public class FakestoreProductService implements IProductService {
         }
 
         return  null;
+    }
+
+    @Override
+    public Boolean deleteProduct(Long productId) {
+        return null;
     }
 }

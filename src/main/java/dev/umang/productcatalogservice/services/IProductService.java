@@ -10,4 +10,6 @@ public interface IProductService {
     Product createProduct(Product input);
 
     Product replaceProduct(Product input, Long productId);
+
+    Boolean deleteProduct(Long productId);
 }
