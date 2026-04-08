@@ -19,7 +19,7 @@ class ProductRepositoryTest {
     @Test
     @Transactional
     public void testJPAMethods(){
-        List<Product> products = productRepository.findAllByOrderByPrice();
-        System.out.println();
+        String productDescr = productRepository.GetProductDescriptionWhereId(120L);
+        System.out.println(productDescr);
     }
 }

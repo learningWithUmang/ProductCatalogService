@@ -30,14 +30,21 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Native sQL qiuero
      */
 
-    //Example of names parameters
+    //Example of names parameters HQL
     @Query("SELECT p.description from Product p where p.id = :id")
-    Product GetProductDescriptionWhereId(Long id, Long price);
+    /*
+    select description from products p where id = ?1
+     */
+    String GetProductDescriptionWhereId(Long id);
 
 
     //Example of positional parameters
     @Query("SELECT p.description from Product p where p.id = ?1 and p.price = ?2")
     Product GetProductDescriptionWhereIdAndPrice(Long id, Long price);
+
+    //Native SQL query
+    @Query(value = "SELECT * from products p where p.price >= ?1 and p.price <= ?2", nativeQuery = true)
+    List<Product> findProductByPriceBetweenNative(Double minPrice, Double maxPrice);
 /*
 select * from products p where p.price >= minPrice and p.price <= maxPrice;
  */
