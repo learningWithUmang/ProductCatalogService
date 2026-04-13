@@ -101,4 +101,8 @@ input  = {
 
 /*
 HW -> Try to also implement PATCH logic for updateProduct
+
+
+whatever classes you annotate, spring creates their objects at the application
+boot time and puts it in the spring app context.
  */

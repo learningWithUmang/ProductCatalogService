@@ -92,13 +92,16 @@ public class ProductController {
         call the service layer to get the product by id
          */
 
-        if(id < 1){
-            throw new IllegalArgumentException("Invalid Product ID(zero or negative)");
+        if(id < 0){
+            throw new IllegalArgumentException("Product id cannot be negative");
+        }else if(id == 0){
+            throw new IllegalArgumentException("Product id cannot be zero");
         }
 
 
 
         Product product = productService.getProductById(id);
+        //product we have hardcoded will be returned it
 
 
         if(product == null){
