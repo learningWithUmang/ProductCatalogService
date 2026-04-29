@@ -1,6 +1,8 @@
 package dev.umang.productcatalogservice.repositories;
 
 import dev.umang.productcatalogservice.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -45,6 +47,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     //Native SQL query
     @Query(value = "SELECT * from products p where p.price >= ?1 and p.price <= ?2", nativeQuery = true)
     List<Product> findProductByPriceBetweenNative(Double minPrice, Double maxPrice);
+
+
+
+    Page<Product> findByName(String name, Pageable pageable);
 /*
 select * from products p where p.price >= minPrice and p.price <= maxPrice;
  */
