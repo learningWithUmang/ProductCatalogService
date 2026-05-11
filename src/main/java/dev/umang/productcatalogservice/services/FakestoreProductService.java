@@ -172,4 +172,9 @@ public class FakestoreProductService implements IProductService {
     public Boolean deleteProduct(Long productId) {
         return null;
     }
+
+    @Override
+    public Product getProductBasedOnUserRole(Long productId, Long userId) {
+        return null;
+    }
 }

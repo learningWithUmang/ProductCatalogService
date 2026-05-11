@@ -1,11 +1,14 @@
 package dev.umang.productcatalogservice.services;
 
+import dev.umang.productcatalogservice.dtos.UserDTO;
 import dev.umang.productcatalogservice.models.Product;
 import dev.umang.productcatalogservice.models.State;
 import dev.umang.productcatalogservice.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +19,9 @@ import java.util.Optional;
 public class StorageProductService implements IProductService {
 
     private ProductRepository productRepository;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     public StorageProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -70,6 +76,34 @@ public class StorageProductService implements IProductService {
             return true;
         }else {
             return false;
+        }
+    }
+
+    @Override
+    public Product getProductBasedOnUserRole(Long productId, Long userId){
+        Optional<Product> productOptional = productRepository.findById(productId);
+        if(productOptional.isPresent()){
+            Product product = productOptional.get();
+            //call User service to see if the userId is an ADMIN
+
+            ResponseEntity<UserDTO> response = restTemplate.getForEntity(
+                    "http://userservice/auth/user/{userId}",
+                    UserDTO.class,
+                    userId
+            );
+
+            UserDTO userDTO = response.getBody();
+
+            //check whether the user is admin
+
+            if(userDTO.getRoles() != null && userDTO.getRoles().stream()
+                    .anyMatch(role -> "ADMIN".equals(role.getValue()))){
+                //admin -> return the product with all details
+                return product;
+            }
+            return null;
+        }else{
+            return null;
         }
     }
 }

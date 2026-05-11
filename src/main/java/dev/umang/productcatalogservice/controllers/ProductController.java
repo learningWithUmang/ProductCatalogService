@@ -140,6 +140,18 @@ public class ProductController {
         return productDTOS;
     }
 
+    @GetMapping("/products/{productId}/{userID}")
+    public ProductDTO getProductDetailsBasedOnUserRole(@PathVariable Long productId,
+                                                       @PathVariable Long userID){
+        Product product = productService.getProductBasedOnUserRole(productId, userID);
+
+        if(product != null) {
+            return product.convert();
+        }
+        return null;
+
+    }
+
 
 
 }
